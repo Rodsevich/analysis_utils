@@ -9,9 +9,9 @@ So far the library supports:
  - [source_span](https://www.dartdocs.org/documentation/source_span/latest/)'s in-file source locations
  - Annotations analysis and instantiation
  - Class Analysis
-  - Method analysis
-  - Field analysis
-  - Constructor analysis
+   - Method analysis
+   - Field analysis
+   - Constructor analysis
 
 ## Usage
 So far, the usage is ClassAnalysis oriented only:
