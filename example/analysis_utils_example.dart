@@ -1,5 +1,4 @@
 import 'package:analysis_utils/analysis.dart';
-import 'package:meta/meta.dart';
 
 /// aca tené
 /// la clásica,
