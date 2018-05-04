@@ -1,4 +1,4 @@
-import 'package:analysis_utils/analysis_utils.dart';
+import 'package:analysis_utils/analysis.dart';
 import 'package:meta/meta.dart';
 
 /// aca tené

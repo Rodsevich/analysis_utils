@@ -11,7 +11,9 @@ class _ArgumentsResolver extends ConstantEvaluator {
   }
 }
 
-/// Class intended to provide an analysis of
+/// Class intended to provide an analysis of analyzed [ArgumentList] or string
+/// "(arg1,arg2,argN)" formatted arguments in a way suitable for instantiating
+/// from mirrors
 class ArgumentsResolution {
   List<dynamic> positional = [];
   Map<Symbol, dynamic> named = {};
@@ -45,6 +47,8 @@ class ArgumentsResolution {
   }
 }
 
+/// Instnatiate from an analyzer's package's [Annotation] (must provide the type,
+/// however)
 dynamic instanceFromAnnotation(Type annotationType, Annotation annotation) =>
     instantiate(annotationType, annotation.constructorName ?? '',
         new ArgumentsResolution.fromArgumentList(annotation.arguments));
