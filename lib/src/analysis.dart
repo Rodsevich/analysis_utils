@@ -411,6 +411,9 @@ class ParametersAnalysis
     }
   }
 
+  /// All the parameters, simple as they are
+  List<Parameter> get all => _parameters;
+
   /// Always required, ordered, positional parameters
   List<Parameter> get required =>
       _parameters.where((p) => p.isOrdinary).toList();
@@ -435,6 +438,8 @@ class ParametersAnalysis
   /// The positional optional parameters (those defined betwenn square brackets)
   List<Parameter> get positionalOptionals =>
       _parameters.where((p) => p.isPositionalOptional).toList();
+
+  get length => _parameters.length;
 
   operator [](String name) =>
       _parameters.singleWhere((Parameter p) => p.name == name, orElse: null);

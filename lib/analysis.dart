@@ -7,4 +7,6 @@ export "./src/analysis.dart"
         MetadataAnalysis,
         FieldAnalysis,
         MethodAnalysis,
-        ConstructorAnalysis;
+        ConstructorAnalysis,
+        Parameter,
+        ParametersAnalysis;

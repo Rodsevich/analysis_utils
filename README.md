@@ -26,7 +26,7 @@ main(){
 }
 ```
 
-For more info you can see the [example](), [test]() or [documentation]()
+For more info you can see the [example](https://pub.dartlang.org/packages/analysis_utils#-example-tab-), [test](https://github.com/Rodsevich/analysis_utils/blob/master/test/analysis_utils_test.dart) or [documentation](https://pub.dartlang.org/documentation/analysis_utils/latest/)
 
 Please file feature requests and bugs at the [issue tracker][tracker].
 
