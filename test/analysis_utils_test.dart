@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:analysis_utils/analysis.dart';
 import 'package:test/test.dart';
 

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import "dart:mirrors" hide SourceLocation;
 import 'package:analysis_utils/src/annotations_intantiator.dart';
@@ -162,10 +161,10 @@ abstract class EntityAnalysis<A extends AstNode, F extends Finder> {
     this.entityFinder =
         finderMirror.newInstance(new Symbol(""), [name]).reflectee;
     if (analyzerContainer != null)
-      analyzerContainer.visitChildren(entityFinder as Finder);
+      analyzerContainer.visitChildren(entityFinder);
     else
-      source.fileParse.visitChildren(entityFinder as Finder);
-    this.analyzerDeclaration = (entityFinder as Finder).finded as A;
+      source.fileParse.visitChildren(entityFinder);
+    this.analyzerDeclaration = entityFinder.finded as A;
   }
 
   _computeAnalysis() {
@@ -180,7 +179,7 @@ abstract class EntityAnalysis<A extends AstNode, F extends Finder> {
     try {
       node = (analyzerDeclaration as AnnotatedNode);
     } catch (e) {
-      node = (analyzerDeclaration as AstNode);
+      node = analyzerDeclaration;
     }
     Token startToken = ((node is AnnotatedNode)
                 ? node?.documentationComment?.beginToken
