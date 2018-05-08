@@ -338,6 +338,8 @@ class MethodAnalysis
       : super(declaration, container, container.source) {
     this.parameters = new ParametersAnalysis(this, declaration);
   }
+
+  bool get isPrivate => null;
 }
 
 class ParametersInterface {
