@@ -128,8 +128,11 @@ abstract class EntityAnalysis<A extends AstNode, F extends Finder> {
   SourceAnalysis source;
   DeclarationMirror mirror;
   A analyzerDeclaration;
-  F entityFinder;
-  Declaration analyzerContainer;
+  F _entityFinder;
+
+  /// the analyzer node tha contains this entity. For example a FieldDeclaration
+  /// should be contained by a ClassDeclaration
+  Declaration _analyzerContainer;
 
   List<MetadataAnalysis> _computeMetadata() {
     NodeList<Annotation> annotations =
@@ -142,7 +145,8 @@ abstract class EntityAnalysis<A extends AstNode, F extends Finder> {
     return ret;
   }
 
-  EntityAnalysis(this.mirror, {this.analyzerContainer, this.source}) {
+  EntityAnalysis(this.mirror, {Declaration analyzerContainer, this.source}) {
+    this._analyzerContainer = analyzerContainer;
     _computeName();
     this.source ??= new SourceAnalysis.forMirror(mirror);
     _findDeclaration();
@@ -158,13 +162,13 @@ abstract class EntityAnalysis<A extends AstNode, F extends Finder> {
 
   _findDeclaration() {
     ClassMirror finderMirror = reflectClass(F);
-    this.entityFinder =
+    this._entityFinder =
         finderMirror.newInstance(new Symbol(""), [name]).reflectee;
-    if (analyzerContainer != null)
-      analyzerContainer.visitChildren(entityFinder);
+    if (_analyzerContainer != null)
+      _analyzerContainer.visitChildren(_entityFinder);
     else
-      source.fileParse.visitChildren(entityFinder);
-    this.analyzerDeclaration = entityFinder.finded as A;
+      source.fileParse.visitChildren(_entityFinder);
+    this.analyzerDeclaration = _entityFinder.finded as A;
   }
 
   _computeAnalysis() {
@@ -304,11 +308,25 @@ class ClassMemberAnalysis<D extends Declaration, F extends Finder>
             source: sourceAnalysis);
 }
 
+/// Analyzes the variables declarations inside classes scope (fields)
+/// The [FieldDeclaration]s have the vissicitude of being able to be declared
+/// with several variables in a single field (for example: 'Type var1 = val1,
+/// var2' will have 2 [VariableDeclaration]s declared in the same field.
+/// While the [VariableMirror] doesn't do that distinction at all. In my
+/// implementation of this [FieldAnalysis] class, the `analyzerDeclaration` will
+/// hold the field, while `variableDeclaration` the variable
 class FieldAnalysis extends ClassMemberAnalysis<FieldDeclaration, FieldFinder> {
   TypeMirror type;
+  VariableDeclaration variableDeclaration;
 
   FieldAnalysis(ClassAnalysis container, VariableMirror declaration)
-      : super(declaration, container, container.source);
+      : super(declaration, container, container.source) {
+    this.variableDeclaration = analyzerDeclaration.fields.variables
+        .singleWhere((VariableDeclaration d) => d.name.toString() == this.name);
+  }
+
+  get defaultValue =>
+      variableDeclaration.initializer?.accept(new ConstantEvaluator());
 }
 
 class ConstructorAnalysis

@@ -39,17 +39,22 @@ class ParentClass {
   @annon(3, "longa")
   @annon(4)
   List<int> sorp = [];
+
+  double var1 = 2.0, initVal = 723 + 123 / 2;
 }
 
 main() {
   ClassAnalysis clazz = new ClassAnalysis.fromType(ExampleClass);
   print("The class name is: ${clazz.name}");
   print("The fields are: " + clazz.fields.keys.join(", "));
+  print("The initial value of 'initVal' field is:"
+      " ${clazz.fields['initVal'].defaultValue}");
   print("The methods are: " + clazz.methods.keys.join(", "));
   print("The constructors are: " + clazz.constructors.keys.join(", "));
   print(
-      "  The default constructor has ${clazz.constructors[""].parameters.length} parameters:\n${clazz.constructors[""].parameters.all.map((Parameter p) => p.name).join(", ")}");
+      "  The default constructor has ${clazz.constructors[""].parameters.length}"
+      " parameters:\n${clazz.constructors[""].parameters.all.map((Parameter p) => p.name).join(", ")}");
   print("The documentation for method2 is: " + clazz.methods["method2"].docs);
-  print(
-      "The inherintance preserves even the annotations from the parent class! (it has ${clazz.fields["sorp"].metadata.length} annotations)");
+  print("The inherintance preserves even the annotations from the parent"
+      "class! (it has ${clazz.fields["sorp"].metadata.length} annotations)");
 }
