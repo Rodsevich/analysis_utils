@@ -37,7 +37,7 @@ class ArgumentsResolution {
     for (AstNode arg in list.arguments) {
       //resolve the constant expressions like "str" "ing" (will resolve to "string")
       var val = arg.accept(resolver);
-      // only thing that can't be properly resoolved because of the Label + Expression
+      // only thing that can't be properly resolved because of the Label + Expression
       if (val is NamedExpression)
         named[new Symbol(val.name.label.token.value())] =
             val.getProperty("resolution");
