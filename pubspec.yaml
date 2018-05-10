@@ -1,6 +1,6 @@
 name: analysis_utils
 description: Utilities for combining static source code analysis with mirrors and so...
-version: 0.0.4
+version: 0.0.5
 homepage: https://www.github.com/Rodsevich/analysis_utils
 author: Rodsevich <nicorodsevich@gmail.com>
 
@@ -11,5 +11,6 @@ dependencies:
   analyzer: '^0.31.1'
   source_span: '^1.4.0'
 
+  path: '^1.5.1'
 dev_dependencies:
   test: ^0.12.0

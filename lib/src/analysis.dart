@@ -1,6 +1,7 @@
 import 'dart:io';
 import "dart:mirrors" hide SourceLocation;
 import 'package:analysis_utils/src/annotations_intantiator.dart';
+import 'package:analysis_utils/src/resolver.dart';
 import "package:analyzer/analyzer.dart";
 import 'package:analyzer/dart/ast/token.dart';
 import 'package:source_span/source_span.dart';
@@ -15,8 +16,16 @@ class SourceAnalysis {
   /// The result of executing the `parseDartFile()`'s Analysis package method
   CompilationUnit fileParse;
 
+  String _code;
+
   /// The code of the file
-  String code;
+  String get code {
+    if (_code == null) {
+      File file = new File(path);
+      _code = file.readAsStringSync();
+    }
+    return _code;
+  }
 
   factory SourceAnalysis.forFilePath(String path) {
     if (_filesAnalyzedCache.containsKey(path))
@@ -29,18 +38,17 @@ class SourceAnalysis {
   }
 
   factory SourceAnalysis.forMirror(DeclarationMirror mirror) {
-    String path = mirror.location?.sourceUri?.path;
-    if (path == null)
+    Uri uri = mirror.location?.sourceUri;
+    if (uri == null)
       throw new UnsupportedError(
           "The mirror '$mirror' doesn't support the sourceUri property. Try providing a SourceAnalysis instance from another mirror that does.");
+    String path = resolvePath(uri);
     return new SourceAnalysis.forFilePath(path);
   }
 
   SourceAnalysis._(this.path) {
     if (path.endsWith(".dart")) {
       this.fileParse = parseDartFile(path);
-      File file = new File(path);
-      this.code = file.readAsStringSync();
     } else
       throw new Exception("You can only parse .dart files");
   }

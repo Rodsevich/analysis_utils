@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5
+
+- Add Uri resolving capabilities
+- Separated the code attribute in a getter (for "lazy loading")
+
 ## 0.0.4
 
 - isPrivate to MethodAnalysis
